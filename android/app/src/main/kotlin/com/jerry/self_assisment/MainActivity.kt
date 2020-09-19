@@ -1,4 +1,4 @@
-package com.jerry.self_assisment
+package com.jerry.self_assessment
 
 import io.flutter.embedding.android.FlutterActivity
 
