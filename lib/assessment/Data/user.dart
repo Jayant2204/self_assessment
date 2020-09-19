@@ -9,7 +9,7 @@ class User {
 
   final String name;
   final DateTime dob;
-  final int mobileNumber;
+  final String mobileNumber;
 
   factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
 
