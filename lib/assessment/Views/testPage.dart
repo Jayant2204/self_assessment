@@ -41,9 +41,7 @@ class _TestPageState extends State<TestPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           controller.getTotalMarks();
-          Get.offAll(AssessmentPage(
-            controller: controller,
-          ));
+          Get.offAll(AssessmentPage(controller: controller));
         },
         label: Text("Submit"),
       ),

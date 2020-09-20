@@ -30,14 +30,22 @@ class AssessmentPage extends StatelessWidget {
 
   getUserAnswerFromQuestion(Question question) {
     var ansId = controller.submittedAnswers[question.qId];
-    Answer userAnswer =
-        question.answeres.firstWhere((element) => element.code == ansId);
-    return userAnswer.value;
+    if (ansId == null) {
+      return "Not Answered";
+    } else {
+      Answer userAnswer =
+          question.answeres.firstWhere((element) => element.code == ansId);
+      return userAnswer.value;
+    }
   }
 
   bool isUserAnswercorrect(Question question) {
     var ansId = controller.submittedAnswers[question.qId];
-    return ansId == question.answerId;
+    if (ansId == null) {
+      return null;
+    } else {
+      return ansId == question.answerId;
+    }
   }
 
   List<Widget> buildQuestionList() {
@@ -67,16 +75,20 @@ class AssessmentPage extends StatelessWidget {
         margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: isUserAnswercorrect(element)
-              ? Colors.green.withOpacity(0.65)
-              : Colors.red.withOpacity(0.65),
+          color: isUserAnswercorrect(element) == null
+              ? Colors.yellow.withOpacity(0.65)
+              : isUserAnswercorrect(element)
+                  ? Colors.green.withOpacity(0.65)
+                  : Colors.red.withOpacity(0.65),
         ),
         child: ListTile(
           title: Text(element.questions),
           isThreeLine: true,
-          leading: isUserAnswercorrect(element)
-              ? Icon(Icons.check_circle_outline)
-              : Icon(Icons.cancel),
+          leading: isUserAnswercorrect(element) == null
+              ? Icon(Icons.radio_button_unchecked)
+              : isUserAnswercorrect(element)
+                  ? Icon(Icons.check_circle_outline)
+                  : Icon(Icons.cancel),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
