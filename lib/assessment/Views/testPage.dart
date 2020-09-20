@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:self_assessment/assessment/Views/assessiment.dart';
 import 'package:self_assessment/assessment/controller/testController.dart';
 import 'package:self_assessment/assessment/widgets/testquestionWidget.dart';
 
@@ -10,6 +11,7 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+  CarouselController carouselController = CarouselController();
   TestController controller = TestController();
   @override
   void initState() {
@@ -25,18 +27,40 @@ class _TestPageState extends State<TestPage> {
         title: Text("Test"),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () => Get.snackbar("Self Assessment Rules",
+                  "Correct answer = 3 marks, Wrong answer = -1",
+                  backgroundColor: Colors.grey[600],
+                  margin: EdgeInsets.all(10),
+                  snackPosition: SnackPosition.TOP))
+        ],
       ),
-      bottomNavigationBar: RaisedButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          print(controller.submittedAnswers);
+          controller.getTotalMarks();
+          Get.offAll(AssessmentPage(
+            controller: controller,
+          ));
         },
-        color: Colors.blue,
-        padding: EdgeInsets.zero,
-        child: Text("Submit"),
+        label: Text("Submit"),
       ),
+      persistentFooterButtons: [
+        FlatButton(
+            onPressed: () => carouselController.previousPage(
+                duration: Duration(milliseconds: 400)),
+            child: Text("Previous")),
+        FlatButton(
+            onPressed: () => carouselController.nextPage(
+                duration: Duration(milliseconds: 400)),
+            child: Text("Next")),
+      ],
       body: Obx(() => Container(
             child: controller.assessment.value != null
                 ? CarouselSlider.builder(
+                    carouselController: carouselController,
                     itemCount:
                         controller.assessment.value?.questions?.length ?? 0,
                     itemBuilder: (context, index) {
@@ -49,11 +73,14 @@ class _TestPageState extends State<TestPage> {
                       );
                     },
                     options: CarouselOptions(
+                      carouselController: carouselController,
                       viewportFraction: 1,
-                      aspectRatio: 3 / 4,
+                      aspectRatio: 0.6,
                       enableInfiniteScroll: false,
                     ))
-                : Container(color: Colors.red),
+                : Container(
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
           )),
     );
   }

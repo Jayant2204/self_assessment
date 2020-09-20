@@ -6,9 +6,22 @@ import 'package:self_assessment/global/constants.dart';
 
 class TestController extends GetxController {
   final assessment = Assessment().obs;
-  final submittedAnswers = Map<int, String>().obs;
+  final submittedAnswers = Map<String, String>().obs;
+  final obtainedMarks = 0.obs;
+  final correctAnswers = 0.obs;
+  final incorrectAnswers = 0.obs;
 
-  onAnswerSelected(int index, String selectedAnswer) {
+  answerIsCorrect() {
+    this.correctAnswers.value++;
+    this.obtainedMarks.value = this.obtainedMarks.value + 3;
+  }
+
+  answerIsWrong() {
+    this.incorrectAnswers.value++;
+    this.obtainedMarks.value = this.obtainedMarks.value - 1;
+  }
+
+  onAnswerSelected(String index, String selectedAnswer) {
     if (this.submittedAnswers.containsKey(index)) {
       this.submittedAnswers.remove(index);
     }
@@ -45,5 +58,27 @@ class TestController extends GetxController {
   fetchAssessmentFromLocalData() async {
     var result = await rootBundle.loadString("assets/questions.json");
     this.assessment.value = Assessment.fromRawJson(result);
+  }
+
+  getTotalMarks() {
+    var userAnswers = this.submittedAnswers;
+
+    var questionList = this.assessment.value.questions;
+
+    questionList.forEach((element) {
+      if (userAnswers[element.qId] == element.answerId) {
+        answerIsCorrect();
+      } else {
+        answerIsWrong();
+      }
+    });
+
+    // userAnswers.forEach((element) {
+    //   if (questionList[element.key].answerId == element.value) {
+    //     answerIsCorrect();
+    //   } else {
+    //     answerIsWrong();
+    //   }
+    // });
   }
 }
