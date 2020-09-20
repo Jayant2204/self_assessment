@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:self_assessment/assessment/Data/user.dart';
-import 'package:self_assessment/assessment/Views/assessimet.dart';
+import 'package:self_assessment/assessment/Views/assessiment.dart';
 import 'package:self_assessment/global/constants.dart';
 
 class MyRegisterUserController extends GetxController {

@@ -32,11 +32,13 @@ class Question {
     this.questions,
     this.answerId,
     this.answeres,
+    this.selectedAnswer, //Used for answer selection
   });
 
   String qId;
   String questions;
   String answerId;
+  String selectedAnswer;
   List<Answer> answeres;
 
   factory Question.fromRawJson(String str) =>
@@ -45,12 +47,12 @@ class Question {
   String toRawJson() => json.encode(toJson());
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
-        qId: json["qId"],
-        questions: json["questions"],
-        answerId: json["answerId"],
-        answeres:
-            List<Answer>.from(json["answeres"].map((x) => Answer.fromJson(x))),
-      );
+      qId: json["qId"],
+      questions: json["questions"],
+      answerId: json["answerId"],
+      answeres:
+          List<Answer>.from(json["answeres"].map((x) => Answer.fromJson(x))),
+      selectedAnswer: "");
 
   Map<String, dynamic> toJson() => {
         "qId": qId,
