@@ -62,12 +62,11 @@ class _TestPageState extends State<TestPage> {
                     itemCount:
                         controller.assessment.value?.questions?.length ?? 0,
                     itemBuilder: (context, index) {
-                      return TestQuestionWidget(
+                      return new TestQuestionWidget(
                         question: controller.assessment.value.questions[index],
                         index: index,
                         onSelectAnswer: controller.onAnswerSelected,
-                        previouslySelectedAnswer:
-                            controller.submittedAnswers[index],
+                        controller: controller,
                       );
                     },
                     options: CarouselOptions(

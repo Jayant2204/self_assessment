@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:self_assessment/assessment/Data/questions.dart';
+import 'package:self_assessment/assessment/controller/testController.dart';
 
 class TestQuestionWidget extends StatefulWidget {
   const TestQuestionWidget(
@@ -7,13 +8,13 @@ class TestQuestionWidget extends StatefulWidget {
       this.question,
       this.index,
       this.onSelectAnswer,
-      this.previouslySelectedAnswer})
+      this.controller})
       : super(key: key);
 
   final Question question;
   final int index;
   final Function(String index, String selectedAnswer) onSelectAnswer;
-  final String previouslySelectedAnswer;
+  final TestController controller;
 
   @override
   _TestQuestionWidgetState createState() => _TestQuestionWidgetState();
@@ -25,7 +26,7 @@ class _TestQuestionWidgetState extends State<TestQuestionWidget> {
   void initState() {
     super.initState();
     setState(() {
-      selectedAnswer = widget.previouslySelectedAnswer;
+      selectedAnswer = widget.controller.submittedAnswers[widget.question.qId];
     });
   }
 
